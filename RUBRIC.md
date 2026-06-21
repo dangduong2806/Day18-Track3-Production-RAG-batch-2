@@ -1,82 +1,64 @@
-# Hệ thống chấm điểm — Lab 18
+# Rubric — Lab 18: Production RAG Pipeline
 
-**Tổng: 100 điểm + 10 bonus**
+**Tổng: 100 điểm + 10 bonus · Cá nhân**
 
 ---
 
-## Phần A: Cá nhân (60 điểm)
+## Implementation (60 điểm)
 
 | # | Tiêu chí | Điểm | Cách chấm |
 |---|----------|------|-----------|
-| A1 | Module implementation đúng logic | 15 | Code review: logic đúng, không hardcode |
-| A2 | Test pass (`pytest tests/test_m*.py`) | 15 | Auto: số tests pass / tổng tests |
-| A3 | Vietnamese-specific handling | 10 | Có dùng underthesea/bge-m3/bge-reranker? |
-| A4 | Code quality | 10 | Comments, type hints, `ruff check` pass |
-| A5 | TODO markers hoàn thành | 10 | Grep `# TODO` → 0 remaining |
+| 1 | M1 Chunking — 3 strategies đúng logic | 12 | Code review + `pytest tests/test_m1.py` |
+| 2 | M2 Search — BM25 + Dense + RRF | 12 | Code review + `pytest tests/test_m2.py` |
+| 3 | M3 Rerank — CrossEncoder load + rerank | 12 | Code review + `pytest tests/test_m3.py` |
+| 4 | M4 Eval — RAGAS + failure analysis | 12 | Code review + `pytest tests/test_m4.py` |
+| 5 | M5 Enrichment — ít nhất 1 technique | 12 | Code review + `pytest tests/test_m5.py` |
 
-### Auto-grading commands
-
-```bash
-# A2: Test pass
-pytest tests/test_m1.py -v    # Module 1
-pytest tests/test_m2.py -v    # Module 2
-pytest tests/test_m3.py -v    # Module 3
-pytest tests/test_m4.py -v    # Module 4
-
-# A4: Lint
-ruff check src/
-
-# A5: TODO count
-grep -r "# TODO" src/m*.py | wc -l    # Should be 0
-```
-
-### Thang điểm A2 (test pass)
+### Thang điểm test (mỗi module)
 
 | Tests pass | Điểm |
 |-----------|------|
-| 100% | 15 |
-| ≥ 80% | 12 |
-| ≥ 60% | 9 |
-| ≥ 40% | 6 |
-| < 40% | 3 |
+| 100% | 12 |
+| ≥ 75% | 9 |
+| ≥ 50% | 6 |
+| < 50% | 3 |
 
 ---
 
-## Phần B: Nhóm (40 điểm)
+## Pipeline & Evaluation (25 điểm)
 
 | # | Tiêu chí | Điểm | Cách chấm |
 |---|----------|------|-----------|
-| B1 | Pipeline chạy end-to-end | 10 | `python src/pipeline.py` exit code 0 |
-| B2 | RAGAS ≥ 0.75 (any metric) | 10 | Check `ragas_report.json` |
-| B3 | Failure analysis có insight | 10 | Review `failure_analysis.md` |
-| B4 | Presentation rõ ràng | 10 | 4 điểm trình bày đầy đủ |
+| 6 | Pipeline chạy end-to-end | 10 | `python src/pipeline.py` exit code 0 |
+| 7 | RAGAS scores hợp lý | 10 | Check `ragas_report.json` |
+| 8 | Failure analysis có insight | 5 | Review `analysis/failure_analysis.md` |
 
-### Thang điểm B2 (RAGAS)
-
-| Điều kiện | Điểm |
-|-----------|------|
-| ≥ 2 metrics đạt 0.75 | 10 |
-| 1 metric đạt 0.75 | 7 |
-| Best metric ≥ 0.60 | 4 |
-| Pipeline chạy nhưng scores thấp | 2 |
-
-### Thang điểm B3 (Failure analysis)
+### Thang điểm RAGAS (#7)
 
 | Điều kiện | Điểm |
 |-----------|------|
-| Bottom-5 có diagnosis + fix + Error Tree walkthrough | 10 |
-| Bottom-5 có diagnosis nhưng thiếu Error Tree | 7 |
-| Có liệt kê failures nhưng không phân tích | 4 |
-| Không có failure analysis | 0 |
+| ≥ 3 metrics đạt 0.70 | 10 |
+| ≥ 2 metrics đạt 0.70 | 8 |
+| ≥ 1 metric đạt 0.70 | 5 |
+| Pipeline chạy nhưng scores thấp | 3 |
 
-### Thang điểm B4 (Presentation)
+### Thang điểm Failure Analysis (#8)
 
 | Điều kiện | Điểm |
 |-----------|------|
-| 4/4 điểm trình bày, có số liệu, rõ ràng | 10 |
-| 3/4 điểm hoặc thiếu số liệu | 7 |
-| 2/4 điểm | 4 |
-| Không present | 0 |
+| Bottom-5 có diagnosis + fix + Error Tree | 5 |
+| Có diagnosis nhưng thiếu Error Tree | 3 |
+| Liệt kê failures không phân tích | 1 |
+
+---
+
+## Reflection (15 điểm)
+
+| # | Tiêu chí | Điểm | Cách chấm |
+|---|----------|------|-----------|
+| 9 | Lecture mapping — concept → code cụ thể | 5 | Bảng mapping đầy đủ 5 modules |
+| 10 | Khó khăn — mô tả + cách giải quyết | 5 | Có exact error + debug process |
+| 11 | Action plan — áp dụng vào project cá nhân | 5 | Plan cụ thể, có timeline |
 
 ---
 
@@ -84,45 +66,35 @@ grep -r "# TODO" src/m*.py | wc -l    # Should be 0
 
 | Bonus | Điểm | Kiểm tra |
 |-------|------|----------|
-| RAGAS Faithfulness ≥ 0.85 | +5 | `ragas_report.json` → faithfulness |
-| Enrichment pipeline integrated | +3 | Code review: contextual prepend hoặc HyQA |
+| RAGAS Faithfulness ≥ 0.85 | +3 | `ragas_report.json` |
+| RAGAS tất cả metrics ≥ 0.75 | +3 | `ragas_report.json` |
+| Enrichment combined mode (1 call/chunk) | +2 | Code review: `_enrich_single_call()` |
 | Latency breakdown report | +2 | Có bảng thời gian từng bước |
 
 ---
 
-## Tổng hợp
+## Auto-grading
 
-```
-Điểm cuối = Cá nhân (A1-A5, max 60) + Nhóm (B1-B4, max 40) + Bonus (max 10)
-           = max 110 điểm, cap tại 100
+```bash
+# Tests
+pytest tests/ -v
+
+# Lint
+ruff check src/ 2>/dev/null || echo "ruff not installed, skip"
+
+# TODO count (should be 0)
+grep -r "# TODO" src/m*.py | wc -l
+
+# Pipeline
+python src/pipeline.py
 ```
 
 ---
 
-## ⚠️ Điểm liệt
+## Quy trình nộp
 
-> Nếu nhóm **không có RAGAS evaluation** (M4 không implement) hoặc **không có failure analysis**, điểm tối đa phần Nhóm bị giới hạn ở **20 điểm**.
-
----
-
-## 📋 Quy trình nộp bài
-
-1. Chạy `python main.py` để tạo reports
-2. Điền `analysis/failure_analysis.md` và `analysis/group_report.md`
-3. Mỗi người viết `analysis/reflections/reflection_[Tên].md`
-4. Chạy `python check_lab.py` để kiểm tra
+1. Implement tất cả TODOs
+2. Chạy `python src/pipeline.py` → `ragas_report.json`
+3. Điền `analysis/failure_analysis.md`
+4. Viết `analysis/reflection_[HọTên].md`
 5. Push lên GitHub, nộp link repo
-
-> Lỗi định dạng khiến `check_lab.py` báo lỗi → **trừ 5 điểm thủ tục**.
-
----
-
-## 👤 Individual Reflection (bắt buộc)
-
-Mỗi thành viên nộp file `analysis/reflections/reflection_[Tên].md` gồm:
-- Đóng góp kỹ thuật cụ thể (module nào, hàm nào)
-- Kiến thức học được + kết nối với bài giảng
-- Khó khăn & cách giải quyết
-- Tự đánh giá 1-5
-
-File reflection được dùng để xác minh đóng góp cá nhân khi chấm điểm A1-A5.

@@ -1,33 +1,19 @@
 # Lab 18: Production RAG Pipeline
 
 **AICB-P2T3 · Ngày 18 · Production RAG**  
-**Giảng viên:** M.Sc Trần Minh Tú · **Thời gian:** 2.5 giờ
+**Giảng viên:** Trần Quang Thiện · **Thời gian:** 2h implement + 30 phút reflection
 
 ---
 
 ## Tổng quan
 
-Lab gồm **2 phần**:
-
-| Phần | Hình thức | Thời gian | Mô tả |
-|------|-----------|-----------|-------|
-| **Phần A** | Cá nhân | 1.5 giờ | Implement 1 trong 5 modules |
-| **Phần B** | Nhóm (3–4 người) | 1 giờ | Ghép modules → full pipeline → eval → present |
+Bài tập **cá nhân** — implement toàn bộ 5 modules:
 
 ```
-  Cá nhân                         Nhóm
-  ┌────────────┐
-  │ M1 Chunking│──┐
-  ├────────────┤  │    ┌──────────────────────────────┐
-  │ M2 Search  │──┼───▶│  Production RAG System        │
-  ├────────────┤  │    │  pipeline.py + RAGAS eval     │
-  │ M3 Rerank  │──┤    │  + failure analysis           │
-  ├────────────┤  │    └──────────────────────────────┘
-  │ M4 Eval    │──┤
-  ├────────────┤  │
-  │ M5 Enrich  │──┘
-  └────────────┘
+M1 Chunking → M5 Enrichment → M2 Hybrid Search → M3 Reranking → LLM Answer → M4 RAGAS Eval
 ```
+
+Xem **ASSIGNMENT.md** để biết chi tiết từng module và timeline.
 
 ## Prerequisites
 
@@ -66,9 +52,8 @@ python check_lab.py                     # Kiểm tra trước khi nộp
 ```
 lab18-production-rag/
 ├── README.md                   # File này
-├── ASSIGNMENT_INDIVIDUAL.md    # ★ Đề bài cá nhân (Phần A)
-├── ASSIGNMENT_GROUP.md         # ★ Đề bài nhóm (Phần B)
-├── RUBRIC.md                   # Hệ thống chấm điểm chi tiết
+├── ASSIGNMENT.md               # ★ Đề bài + timeline + reflection
+├── RUBRIC.md                   # Hệ thống chấm điểm
 │
 ├── main.py                     # Entry point: chạy toàn bộ pipeline
 ├── check_lab.py                # Kiểm tra định dạng trước khi nộp
@@ -123,7 +108,7 @@ lab18-production-rag/
 
 | Thời gian | Hoạt động |
 |-----------|-----------|
-| 0:00–0:15 | Setup + chạy `naive_baseline.py` |
-| 0:15–1:45 | **Phần A (cá nhân):** implement module → `pytest tests/test_m*.py` |
-| 1:45–2:15 | **Phần B (nhóm):** ghép → `python src/pipeline.py` → failure analysis |
-| 2:15–2:30 | Presentation 5 phút/nhóm |
+| 0:00–0:10 | Setup + chạy `naive_baseline.py` |
+| 0:10–1:40 | Implement M1 → M2 → M3 → M4 → M5 |
+| 1:40–2:00 | Chạy pipeline + RAGAS + failure analysis |
+| 2:00–2:30 | Reflection: lecture mapping + project plan |
