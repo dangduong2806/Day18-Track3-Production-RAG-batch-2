@@ -1,8 +1,44 @@
+﻿# Secrets / local config
 .env
-.DS_Store
+.env.*
+!.env.example
+
+# Python bytecode and caches
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 .pytest_cache/
-qdrant_data/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+.venv*/
+venv/
+env/
+ENV/
+
+# Build / packaging
+build/
+dist/
 *.egg-info/
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local Qdrant / vector DB storage
+qdrant_data/
+storage/
+snapshots/
+
+# Generated temporary reports
 reports/*.json
+
+# Logs
+*.log
+logs/
